@@ -3,5 +3,6 @@
     <string name="filter_text">Find me a day this week...</string>
     <string name="min_temp">Min Temp</string>
     <string name="max_temp">Max Temp</string>
+    <string name="dark_sky"> Powered by Dark Sky</string>
 
 </resources>

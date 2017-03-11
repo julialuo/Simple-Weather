@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -28,12 +29,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int LOCATION_REQUEST = 1340;
+    private static final String DARK_SKY_URL = "https://darksky.net/poweredby/";
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private NetworkInfo activeNetworkInfo;
     private ViewPager mViewPager;
@@ -47,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initiate components
         days = new ArrayList<>();
 
         // Initiate location and connectivity manager
@@ -54,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        // Get location data
         getLocationData();
     }
 
@@ -211,6 +218,15 @@ public class MainActivity extends AppCompatActivity {
                     // Populate main fragment with weather data
                     rootView = inflater.inflate(R.layout.fragment_main, container, false);
                     new Utils.TodayAPICall().execute(rootView, location, getActivity());
+
+                    ((TextView) rootView.findViewById(R.id.dark_sky)).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(DARK_SKY_URL));
+                            startActivity(browserIntent);
+                        }
+                    });
+
                     return rootView;
                 case 2:
                     // Initialize the view and recycler list
