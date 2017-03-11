@@ -1,0 +1,2 @@
+include ':app', ':SkyconsLibrary'
+project(':SkyconsLibrary').projectDir = new File('app/libs/SkyconsLibrary')
